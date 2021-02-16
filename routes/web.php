@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
+});
+
+Route::get('/about', function() {
+    return "This is about page.";
+});
+
+Route::get('/contact', function() {
+    return "This is contact page.";
+});
+
+Route::get('/post/{id}/{name}', function($id, $name) {
+    return "Post from " . $name . " with post id of " . $id;
 });
