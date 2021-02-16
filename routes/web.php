@@ -26,4 +26,11 @@ Route::get('/contact', function() {
     return view('contact',compact('name', 'postId', 'postContent'));
 });
 
-Route::resource('posts', PostsController::class);
+// Route::resource('posts', PostsController::class);
+Route::group(['prefix' => 'posts'], function() {
+    Route::get('/', [PostsController::class, 'index']);
+    Route::get('/create', [PostsController::class, 'create']);
+    Route::get('/show/{id}', [PostsController::class, 'show']);
+    Route::get('/edit/{id}', [PostsController::class, 'edit']);
+    Route::get('/delete/{id}', [PostsController::class, 'destroy']);
+});

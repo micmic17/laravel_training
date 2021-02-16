@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class PostsController extends Controller
 {
@@ -23,7 +25,12 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        $request = [
+            'title' => 'Laravel Training',
+            'content' => 'Laravel 8.0 is the best'
+        ];
+
+        $this->store($request);
     }
 
     /**
@@ -32,9 +39,9 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($request)
     {
-        //
+        DB::table('posts')->insert($request);
     }
 
     /**
@@ -45,18 +52,17 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = DB::table('posts')
+                    ->select(DB::raw('*, id'))
+                    ->where('id', $id)
+                    ->get();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $request = ['title' => 'Test Laravel'];
+
+        $this->update($request, $id);
     }
 
     /**
@@ -66,9 +72,11 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($request, $id)
     {
-        //
+        $update = DB::table('posts')
+                    ->where('id', $id)
+                    ->update($request);
     }
 
     /**
@@ -79,6 +87,13 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = DB::table('posts')->where('id', $id);
+
+        $this->delete($post);
+    }
+
+    public function delete($post)
+    {
+        $post->delete();
     }
 }
