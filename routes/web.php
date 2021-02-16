@@ -18,24 +18,12 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-// Route::get('/about', function() {
-//     return "This is about page.";
-// });
+Route::get('/contact', function() {
+    $name = 'Mic';
+    $postId = '1';
+    $postContent = "Post content test";
 
-// Route::get('/contact', function() {
-//     return "This is contact page.";
-// });
+    return view('contact',compact('name', 'postId', 'postContent'));
+});
 
-// Route::get('/post/{id}/{name}', function($id, $name) {
-//     return "Post from " . $name . " with post id of " . $id;
-// });
-
-// Named Routes
-// Route::get('admin/posts/example', array('as' => 'admin.home', function() {
-//     $url = route('admin.home');
-
-//     return "This is the current url " . $url;
-// }));
-
-// Route::get('/', [PostsController::class, 'index']);
 Route::resource('posts', PostsController::class);
