@@ -28,3 +28,10 @@ Route::get('/contact', function() {
 Route::get('/post/{id}/{name}', function($id, $name) {
     return "Post from " . $name . " with post id of " . $id;
 });
+
+// Named Routes
+Route::get('admin/posts/example', array('as' => 'admin.home', function() {
+    $url = route('admin.home');
+
+    return "This is the current url " . $url;
+}));
