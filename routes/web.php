@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\PostsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,35 +17,30 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/contact', function() {
-    $name = 'Mic';
-    $postId = '1';
-    $postContent = "Post content test";
 
-    return view('contact',compact('name', 'postId', 'postContent'));
+Route::group(['middleware' => 'web'], function() {
+    Route::resource('posts', PostsController::class);
 });
-
-// Route::resource('posts', PostsController::class);
-Route::group(['prefix' => 'posts'], function() {
-    Route::get('/', [PostsController::class, 'index']);
-    Route::get('/create/{userId}', [PostsController::class, 'create']);
-    Route::get('/show/{id}', [PostsController::class, 'show']);
-    Route::get('/edit/{id}', [PostsController::class, 'edit']);
-    Route::get('/delete/{id}', [PostsController::class, 'destroy']);
-    Route::get('/trash', [PostsController::class, 'getTrashRecords']);
-    Route::get('/restore', [PostsController::class, 'restore']);
-    Route::get('/forceDelete/{id}', [PostsController::class, 'forceDelete']);
-});
+// Route::group(['prefix' => 'posts'], function() {
+//     Route::get('/', [PostsController::class, 'index']);
+//     Route::get('/create/{userId}', [PostsController::class, 'create']);
+//     Route::get('/show/{id}', [PostsController::class, 'show']);
+//     Route::get('/edit/{id}', [PostsController::class, 'edit']);
+//     Route::get('/delete/{id}', [PostsController::class, 'destroy']);
+//     Route::get('/trash', [PostsController::class, 'getTrashRecords']);
+//     Route::get('/restore', [PostsController::class, 'restore']);
+//     Route::get('/forceDelete/{id}', [PostsController::class, 'forceDelete']);
+// });
 
 
 // Users
-Route::group(['prefix' => 'user/{id}'], function() {
-    Route::get('/posts', [UserController::class, 'showUserPosts']);
-    Route::get('/role', [UserController::class, 'showUserRole']);
-    Route::get('/edit', [UserController::class, 'edit']);
-});
+// Route::group(['prefix' => 'user/{id}'], function() {
+//     Route::get('/posts', [UserController::class, 'showUserPosts']);
+//     Route::get('/role', [UserController::class, 'showUserRole']);
+//     Route::get('/edit', [UserController::class, 'edit']);
+// });
 
-// Roles
-Route::group(['prefix' => 'role/{id}'], function() {
-    Route::get('/', [RoleController::class, 'create']);
-});
+// // Roles
+// Route::group(['prefix' => 'role/{id}'], function() {
+//     Route::get('/', [RoleController::class, 'create']);
+// });

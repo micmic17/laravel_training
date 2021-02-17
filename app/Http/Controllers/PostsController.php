@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Http\Requests\CreatePostRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,9 +18,9 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $post = Post::all();
-
-        return $post;
+        $posts = Post::all();
+    
+        return view('pages.posts.index', compact('posts'));
     }
 
     /**
@@ -27,15 +28,9 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create()
     {
-        $request = [
-            'user_id' => $id,
-            'title' => 'Laravel Training 1',
-            'content' => 'Laravel 8.0 is the best 1'
-        ];
-
-        return $this->store($request);
+        return view('pages.posts.create');
     }
 
     /**
@@ -44,11 +39,12 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($request)
+    public function store(CreatePostRequest $request)
     {
-        $post = Post::create($request);
+        $request->request->add(['user_id' => 1]);
+        $post = Post::create($request->all());
 
-        return $post;
+        return redirect('/posts');
     }
 
     /**
@@ -61,15 +57,14 @@ class PostsController extends Controller
     {
         $post = Post::findOrFail($id);
         
-        return $post;
+        return view('pages.posts.show', compact('post'));
     }
 
     public function edit($id)
     {
-        $request = ['title' => 'Update Laravel'];
-
-        if ($this->update($request, $id)) return "Updated successfully";
-        else return "Something went wrong";
+        $post = Post::findOrFail($id);
+        
+        return view('pages.posts.edit', compact('post'));
     }
 
     /**
@@ -79,11 +74,11 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($request, $id)
+    public function update(Request $request, $id)
     {
-        $update = Post::findOrFail($id)->update($request);
+        $update = Post::findOrFail($id)->update($request->all());
 
-        return $update;
+        return redirect('posts');
     }
 
     /**
@@ -96,8 +91,7 @@ class PostsController extends Controller
     {
         $post = Post::findOrFail($id)->delete();
 
-        if ($post) return "Deleted successfully";
-        else return "Something went wrong";
+        return redirect('posts');
     }
 
     public function getTrashRecords()
