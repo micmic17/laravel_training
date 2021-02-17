@@ -27,11 +27,12 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
         $request = [
-            'title' => 'Laravel Training 3',
-            'content' => 'Laravel 8.0 is the best 3'
+            'user_id' => $id,
+            'title' => 'Laravel Training 1',
+            'content' => 'Laravel 8.0 is the best 1'
         ];
 
         return $this->store($request);

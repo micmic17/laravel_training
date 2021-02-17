@@ -10,5 +10,11 @@ class Post extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = array('title', 'content', 'is_admin');
+    // protected $fillable = array('title', 'content', 'is_admin', 'user_id');
+    protected $guarded = [];
+
+    public function user()
+    {
+        $this->belongsTo('App\Models\User');
+    }
 }
