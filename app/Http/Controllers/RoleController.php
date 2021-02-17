@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,9 +24,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return $user->roles()->save(new Role(['name' => 'Admin']));
     }
 
     /**
@@ -58,10 +61,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        $request = ['name' => 'subs'];
-
-        return $this->update($request, $user);
+        //
     }
 
     /**
@@ -71,14 +71,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($request, $user)
+    public function update(Request $request, $id)
     {
-        if ($user->has('roles')) {
-            foreach ($user->roles as $role) {
-                $role->name = $request['name'];
-                $role->save();
-            }
-        }
+        //
     }
 
     /**
@@ -90,19 +85,5 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function showUserPosts($id)
-    {
-        $user = User::findOrFail($id);
-
-        return $user->posts;
-    }
-
-    public function showUserRole($id)
-    {
-        $user = User::findOrFail($id);
-
-        return $user->roles;
     }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PostsController;
 
 /*
@@ -39,6 +40,15 @@ Route::group(['prefix' => 'posts'], function() {
     Route::get('/forceDelete/{id}', [PostsController::class, 'forceDelete']);
 });
 
-Route::group(['prefix' => 'user/{id}/posts'], function() {
-    Route::get('/', [UserController::class, 'index']);
+
+// Users
+Route::group(['prefix' => 'user/{id}'], function() {
+    Route::get('/posts', [UserController::class, 'showUserPosts']);
+    Route::get('/role', [UserController::class, 'showUserRole']);
+    Route::get('/edit', [UserController::class, 'edit']);
+});
+
+// Roles
+Route::group(['prefix' => 'role/{id}'], function() {
+    Route::get('/', [RoleController::class, 'create']);
 });
