@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostsController;
 
 /*
@@ -36,4 +37,8 @@ Route::group(['prefix' => 'posts'], function() {
     Route::get('/trash', [PostsController::class, 'getTrashRecords']);
     Route::get('/restore', [PostsController::class, 'restore']);
     Route::get('/forceDelete/{id}', [PostsController::class, 'forceDelete']);
+});
+
+Route::group(['prefix' => 'user/{id}/posts'], function() {
+    Route::get('/', [UserController::class, 'index']);
 });
