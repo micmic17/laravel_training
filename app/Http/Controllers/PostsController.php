@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +17,9 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return "test";
+        $post = Post::all();
+
+        return $post;
     }
 
     /**
@@ -26,11 +30,11 @@ class PostsController extends Controller
     public function create()
     {
         $request = [
-            'title' => 'Laravel Training',
-            'content' => 'Laravel 8.0 is the best'
+            'title' => 'Laravel Training 3',
+            'content' => 'Laravel 8.0 is the best 3'
         ];
 
-        $this->store($request);
+        return $this->store($request);
     }
 
     /**
@@ -41,7 +45,9 @@ class PostsController extends Controller
      */
     public function store($request)
     {
-        DB::table('posts')->insert($request);
+        $post = Post::create($request);
+
+        return $post;
     }
 
     /**
@@ -52,17 +58,17 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        $post = DB::table('posts')
-                    ->select(DB::raw('*, id'))
-                    ->where('id', $id)
-                    ->get();
+        $post = Post::findOrFail($id);
+        
+        return $post;
     }
 
     public function edit($id)
     {
-        $request = ['title' => 'Test Laravel'];
+        $request = ['title' => 'Update Laravel'];
 
-        $this->update($request, $id);
+        if ($this->update($request, $id)) return "Updated successfully";
+        else return "Something went wrong";
     }
 
     /**
@@ -74,9 +80,9 @@ class PostsController extends Controller
      */
     public function update($request, $id)
     {
-        $update = DB::table('posts')
-                    ->where('id', $id)
-                    ->update($request);
+        $update = Post::findOrFail($id)->update($request);
+
+        return $update;
     }
 
     /**
@@ -87,13 +93,9 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        $post = DB::table('posts')->where('id', $id);
+        $post = Post::findOrFail($id)->delete();
 
-        $this->delete($post);
-    }
-
-    public function delete($post)
-    {
-        $post->delete();
+        if ($post) return "Deleted successfully";
+        else return "Something went wrong";
     }
 }
