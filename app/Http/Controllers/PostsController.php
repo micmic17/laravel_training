@@ -98,4 +98,27 @@ class PostsController extends Controller
         if ($post) return "Deleted successfully";
         else return "Something went wrong";
     }
+
+    public function getTrashRecords()
+    {
+        $post = Post::onlyTrashed()->get();
+
+        return $post;
+    }
+
+    public function restore()
+    {
+        $posts = Post::withTrashed()->whereIsAdmin(0)
+                    ->get()->map(function($post) {
+                        $post->restore();
+                    });
+    }
+
+    public function forceDelete($id)
+    {
+        $post = Post::findOrFail($id)->forceDelete();
+
+        if ($post) return "Deleted successfully";
+        else return "Something went wrong";
+    }
 }

@@ -33,4 +33,7 @@ Route::group(['prefix' => 'posts'], function() {
     Route::get('/show/{id}', [PostsController::class, 'show']);
     Route::get('/edit/{id}', [PostsController::class, 'edit']);
     Route::get('/delete/{id}', [PostsController::class, 'destroy']);
+    Route::get('/trash', [PostsController::class, 'getTrashRecords']);
+    Route::get('/restore', [PostsController::class, 'restore']);
+    Route::get('/forceDelete/{id}', [PostsController::class, 'forceDelete']);
 });
