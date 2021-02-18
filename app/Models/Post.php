@@ -17,4 +17,9 @@ class Post extends Model
     {
         $this->belongsTo('App\Models\User');
     }
+
+    public function getPath($value)
+    {
+        return $path . $value;
+    }
 }

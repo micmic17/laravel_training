@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    {!! Form::open(['method' => 'POST', 'action' => 'PostsController@store']) !!}
+    {!! Form::open(['method' => 'POST', 'action' => 'PostsController@store', 'files' => true]) !!}
         <div class="form-group">
             {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
             {!! Form::text('content', null, ['class' => 'form-control', 'placeholder' => 'Content']) !!}
+            {!! Form::file('file', ['class' => 'form-control']) !!}
             {!! Form::submit('Create Post', ['class' => 'btn btn-primary']) !!}
         </div>
     {!! Form::close() !!}

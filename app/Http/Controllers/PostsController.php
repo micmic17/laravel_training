@@ -41,8 +41,15 @@ class PostsController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
-        $request->request->add(['user_id' => 1]);
-        $post = Post::create($request->all());
+        $file = $request->file('file');
+
+        if ($file) {
+            $path = str_replace('public/', '', $request->file('file')->store('public'));
+
+            $request->request->add(['image_path' => $path, 'user_id' => 1]);
+        }
+
+        $post = Post::create($request->except('file'));
 
         return redirect('/posts');
     }
